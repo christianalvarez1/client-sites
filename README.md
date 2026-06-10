@@ -43,8 +43,8 @@ Visitor ──> Vercel ─┼─ acmehvac.com                    ├──> ONE 
 1. Create a new project at [database.new](https://database.new).
 2. Run `supabase/migrations/0001_init.sql` in the SQL editor.
 3. Run `supabase/seed.sql` — seeds the first construction site at subdomain
-   `summit` with **placeholder content**; swap in the client's real name,
-   phone, email, license number, copy, and photos.
+   `turner` (Turner Building Inc.). Contact info and service area are real;
+   license number, years, copy, photos, and testimonials are still placeholders.
 4. Create a **public storage bucket named `media`** for client photos/logos
    (then point `pages.sections` image URLs and `theme.logoUrl` at it, and drop
    the Unsplash entry from `next.config.ts`).
@@ -76,7 +76,7 @@ npm install
 npm run dev
 ```
 
-- Tenant sites: `http://summit.localhost:3000` (any `<subdomain>.localhost`
+- Tenant sites: `http://turner.localhost:3000` (any `<subdomain>.localhost`
   maps to `<subdomain>.<ROOT_DOMAIN>`).
 - Platform root: `http://localhost:3000`.
 
