@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/*
+ * Tenant theming: sites.theme (jsonb) is applied as inline CSS variables on the
+ * tenant layout wrapper, overriding the defaults below. Tailwind utilities like
+ * bg-brand / text-accent resolve through these variables, so one template
+ * renders in every client's colors.
+ */
+:root {
+  --brand: #1c2a39;
+  --brand-dark: #111a24;
+  --accent: #e8a33d;
+}
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-geist-sans);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
