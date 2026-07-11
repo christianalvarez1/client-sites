@@ -14,9 +14,20 @@ const ROOT_DOMAIN =
  * Content edits go live without a redeploy via POST /api/revalidate.
  */
 
+/**
+ * Hosts are matched www-agnostically: www.example.com and example.com
+ * resolve to the same site and share one cache entry / `domain:` tag,
+ * so `custom_domain` rows are stored without the www. prefix.
+ */
+function normalizeHostname(hostname: string): string {
+  const lower = hostname.toLowerCase();
+  return lower.startsWith("www.") ? lower.slice("www.".length) : lower;
+}
+
 export async function getSiteByHostname(
-  hostname: string
+  rawHostname: string
 ): Promise<Site | null> {
+  const hostname = normalizeHostname(rawHostname);
   return unstable_cache(
     async () => {
       const db = supabaseAdmin();

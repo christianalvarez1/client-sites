@@ -19,6 +19,12 @@ export default function proxy(req: NextRequest) {
   const url = req.nextUrl;
   let hostname = (req.headers.get("host") ?? "").toLowerCase().split(":")[0];
 
+  // www-agnostic: www.example.com rewrites to the same /s/<hostname> path
+  // (and thus the same route-cache entry) as example.com.
+  if (hostname.startsWith("www.")) {
+    hostname = hostname.slice("www.".length);
+  }
+
   // Local dev: `summit.localhost:3000` behaves like `summit.<ROOT_DOMAIN>`.
   if (hostname.endsWith(".localhost")) {
     hostname = `${hostname.slice(0, -".localhost".length)}.${ROOT_DOMAIN}`;
@@ -27,7 +33,6 @@ export default function proxy(req: NextRequest) {
   const isPlatformHost =
     hostname === "localhost" ||
     hostname === ROOT_DOMAIN ||
-    hostname === `www.${ROOT_DOMAIN}` ||
     hostname.endsWith(".vercel.app");
 
   if (isPlatformHost) {
