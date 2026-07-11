@@ -11,19 +11,19 @@ export function ServiceArea({
   if (areas.length === 0) return null;
 
   return (
-    <section className="bg-white">
+    <section className="bg-surface">
       <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-900">
+        <h2 className="font-display text-3xl font-medium tracking-tight text-heading sm:text-4xl">
           {section.heading}
         </h2>
         {section.intro && (
-          <p className="mt-3 max-w-2xl text-lg text-zinc-600">{section.intro}</p>
+          <p className="mt-3 max-w-2xl text-lg text-muted">{section.intro}</p>
         )}
         <ul className="mt-8 flex flex-wrap gap-3">
           {areas.map((area) => (
             <li
               key={area}
-              className="flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700"
+              className="flex items-center gap-2 rounded-full border border-line bg-card px-4 py-2 text-sm font-medium text-ink"
             >
               <svg
                 viewBox="0 0 24 24"

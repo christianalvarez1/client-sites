@@ -6,6 +6,7 @@ export interface LeadInput {
   name: string;
   phone: string;
   email?: string;
+  service?: string;
   message?: string;
 }
 
@@ -26,6 +27,7 @@ export async function sendLeadNotification(site: Site, lead: LeadInput) {
     `Name: ${lead.name}`,
     `Phone: ${lead.phone}`,
     lead.email ? `Email: ${lead.email}` : null,
+    lead.service ? `Service: ${lead.service}` : null,
     "",
     lead.message ?? "(no message)",
   ].filter((l): l is string => l !== null);

@@ -3,9 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      // Client photos/logos live in Supabase Storage (public `media` bucket).
       { protocol: "https", hostname: "**.supabase.co" },
-      // Placeholder seed imagery only — remove once real client photos are in Supabase Storage.
-      { protocol: "https", hostname: "images.unsplash.com" },
     ],
   },
 };

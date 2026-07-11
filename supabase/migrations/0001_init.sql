@@ -61,6 +61,7 @@ create table public.leads (
   name        text not null,
   phone       text not null,
   email       text,
+  service     text,               -- optional "Service Needed" from the contact form
   message     text,
   created_at  timestamptz not null default now()
 );

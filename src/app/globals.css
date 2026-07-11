@@ -1,22 +1,72 @@
 @import "tailwindcss";
 
 /*
- * Tenant theming: sites.theme (jsonb) is applied as inline CSS variables on the
- * tenant layout wrapper, overriding the defaults below. Tailwind utilities like
- * bg-brand / text-accent resolve through these variables, so one template
- * renders in every client's colors.
+ * Tenant theming — one template, every client's colors and type.
+ *
+ * These are the DEFAULT tokens (the navy / gold / sans look). A site overrides
+ * any of them via sites.theme (jsonb), applied as inline CSS variables on the
+ * tenant layout wrapper (see app/s/[domain]/layout.tsx). Tailwind utilities
+ * (bg-surface, text-heading, font-display, border-line, …) resolve through
+ * these variables, so nothing in the components is tenant-specific.
  */
 :root {
+  /* Brand + accent */
   --brand: #1c2a39;
   --brand-dark: #111a24;
   --accent: #e8a33d;
+  --accent-dark: #cf8f2e;
+  --on-accent: var(--brand-dark); /* text/icon color on accent fills */
+
+  /* Surfaces */
+  --surface: #ffffff; /* primary section background */
+  --surface-alt: #fafafa; /* alternating section background */
+  --surface-card: #fafafa; /* cards on a primary surface */
+  --border: #e4e4e7; /* hairlines, card borders */
+
+  /* Text */
+  --heading: #18181b;
+  --ink: #3f3f46; /* body copy */
+  --muted: #71717a; /* labels, captions */
+
+  /* Header / footer bars (dark by default) */
+  --header-bg: var(--brand);
+  --header-fg: #ffffff;
+  --header-border: rgba(255, 255, 255, 0.1);
+  --footer-bg: var(--brand-dark);
+  --footer-fg: rgba(255, 255, 255, 0.8);
+
+  /* Heading typeface — swapped to --font-playfair when theme.fonts.heading = "serif" */
+  --font-heading: var(--font-geist-sans);
 }
 
 @theme inline {
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
   --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-on-accent: var(--on-accent);
+
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-card: var(--surface-card);
+  --color-line: var(--border);
+
+  --color-heading: var(--heading);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+
+  --color-header: var(--header-bg);
+  --color-header-fg: var(--header-fg);
+  --color-header-line: var(--header-border);
+  --color-footer: var(--footer-bg);
+  --color-footer-fg: var(--footer-fg);
+
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {

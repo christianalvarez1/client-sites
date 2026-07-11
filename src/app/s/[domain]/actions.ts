@@ -22,6 +22,7 @@ export async function submitLead(
   const name = String(formData.get("name") ?? "").trim();
   const phone = String(formData.get("phone") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
+  const service = String(formData.get("service") ?? "").trim();
   const message = String(formData.get("message") ?? "").trim();
 
   if (!name || !phone) {
@@ -41,6 +42,7 @@ export async function submitLead(
     name,
     phone,
     email: email || null,
+    service: service || null,
     message: message || null,
   });
 
@@ -52,7 +54,7 @@ export async function submitLead(
     };
   }
 
-  await sendLeadNotification(site, { name, phone, email, message });
+  await sendLeadNotification(site, { name, phone, email, service, message });
 
   return {
     status: "success",

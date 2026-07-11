@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getNavPages, getSiteByHostname } from "@/lib/tenant";
+import { themeToCssVars } from "@/lib/theme";
 
 interface Props {
   children: React.ReactNode;
@@ -33,18 +34,12 @@ export default async function SiteLayout({ children, params }: Props) {
   if (!site || site.status === "draft") notFound();
 
   const nav = await getNavPages(site.id);
-  const { colors = {} } = site.theme;
+  const themeStyle = themeToCssVars(site.theme);
 
   return (
     <div
-      className="flex min-h-screen flex-col bg-white text-zinc-800"
-      style={
-        {
-          ...(colors.primary && { "--brand": colors.primary }),
-          ...(colors.primaryDark && { "--brand-dark": colors.primaryDark }),
-          ...(colors.accent && { "--accent": colors.accent }),
-        } as React.CSSProperties
-      }
+      className="flex min-h-screen flex-col bg-surface font-sans text-ink"
+      style={themeStyle}
     >
       <Header site={site} nav={nav} />
       <main className="flex-1">{children}</main>

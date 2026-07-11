@@ -3,21 +3,27 @@ import type { GallerySection } from "@/lib/types";
 
 export function Gallery({ section }: { section: GallerySection }) {
   return (
-    <section className="bg-zinc-50">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-900">
-          {section.heading}
-        </h2>
-        {section.intro && (
-          <p className="mt-3 max-w-2xl text-lg text-zinc-600">{section.intro}</p>
-        )}
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="bg-surface">
+      <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+        <div className="text-center">
+          {section.eyebrow && (
+            <div className="text-sm font-bold uppercase tracking-[0.2em] text-accent">
+              {section.eyebrow}
+            </div>
+          )}
+          <h2 className="mt-3.5 font-display text-3xl font-medium tracking-tight text-heading sm:text-4xl">
+            {section.heading}
+          </h2>
+          {section.intro && (
+            <p className="mx-auto mt-4 max-w-xl text-lg text-muted">
+              {section.intro}
+            </p>
+          )}
+        </div>
+        <div className="mt-14 grid gap-x-7 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
           {section.items.map((item) => (
-            <figure
-              key={item.image}
-              className="group overflow-hidden rounded-lg bg-white shadow-sm"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
+            <figure key={item.image} className="group">
+              <div className="relative aspect-[5/4] overflow-hidden rounded-2xl bg-surface-alt">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -25,16 +31,18 @@ export function Gallery({ section }: { section: GallerySection }) {
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover transition duration-300 group-hover:scale-105"
                 />
-                {item.tag && (
-                  <span className="absolute left-3 top-3 rounded bg-accent px-2 py-1 text-xs font-semibold text-brand-dark">
-                    {item.tag}
-                  </span>
-                )}
               </div>
-              <figcaption className="p-4">
-                <p className="font-semibold text-zinc-900">{item.title}</p>
+              <figcaption className="mt-4">
+                {item.tag && (
+                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-accent">
+                    {item.tag}
+                  </div>
+                )}
+                <p className="mt-1.5 font-display text-xl font-semibold text-heading">
+                  {item.title}
+                </p>
                 {item.location && (
-                  <p className="text-sm text-zinc-500">{item.location}</p>
+                  <p className="mt-0.5 text-sm text-muted">{item.location}</p>
                 )}
               </figcaption>
             </figure>

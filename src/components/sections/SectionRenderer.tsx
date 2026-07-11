@@ -3,12 +3,15 @@ import { About } from "./About";
 import { Badges } from "./Badges";
 import { Contact } from "./Contact";
 import { Cta } from "./Cta";
+import { Faq } from "./Faq";
 import { Gallery } from "./Gallery";
 import { Hero } from "./Hero";
 import { PageHeader } from "./PageHeader";
+import { Process } from "./Process";
 import { ServiceArea } from "./ServiceArea";
 import { Services } from "./Services";
 import { Testimonials } from "./Testimonials";
+import { TrustBar } from "./TrustBar";
 
 const ROOT_DOMAIN =
   process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "sites.letusbuildyourwebsite.com";
@@ -36,14 +39,20 @@ export function SectionRenderer({
         switch (section.type) {
           case "hero":
             return <Hero key={i} section={section} site={site} />;
+          case "trustBar":
+            return <TrustBar key={i} section={section} site={site} />;
           case "pageHeader":
             return <PageHeader key={i} section={section} />;
           case "services":
             return <Services key={i} section={section} />;
           case "gallery":
             return <Gallery key={i} section={section} />;
+          case "process":
+            return <Process key={i} section={section} />;
           case "testimonials":
             return <Testimonials key={i} section={section} />;
+          case "faq":
+            return <Faq key={i} section={section} />;
           case "serviceArea":
             return <ServiceArea key={i} section={section} site={site} />;
           case "badges":

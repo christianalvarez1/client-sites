@@ -1,10 +1,15 @@
 -- Seed: first construction client — Turner Building Inc. (Travis Turner)
 --
--- Real info (from Travis): company name, email, phone, service area.
--- Still PLACEHOLDER (waiting on Travis — see "questions" in the README/chat):
---   license number, years in business, exact services list, project photos,
---   testimonials, about/story copy, logo (have PDF — convert + upload to the
---   `media` bucket, then set theme.logoUrl).
+-- Content and layout mirror the approved v2 design
+-- (turner-building-inc-website/project/Turner Building Website v2.dc.html).
+-- Images/logos are served from /public/sites/turner/ (copied from that project's
+-- assets). Theme drives the cream + orange + Playfair "showcase" look; other
+-- tenants can still use the default navy/gold/sans look via their own theme.
+--
+-- Real (from Travis): company name, email, phone, service area.
+-- PLACEHOLDER — still waiting on Travis:
+--   * licenseNo "0000000" (real CA license #)
+--   * testimonials below are illustrative copy, NOT real named reviews
 --
 -- After live edits, purge the cache:
 --   POST /api/revalidate?secret=...&tag=site:11111111-1111-4111-8111-111111111111
@@ -23,21 +28,42 @@ insert into public.sites (id, client_id, subdomain, industry, status, theme, bus
   'construction',
   'review',
   '{
-    "colors": { "primary": "#1c2a39", "primaryDark": "#111a24", "accent": "#e8a33d" }
+    "colors": {
+      "primary": "#262420",
+      "primaryDark": "#1e1b17",
+      "accent": "#e8701f",
+      "accentDark": "#c95c14",
+      "onAccent": "#ffffff",
+      "surface": "#fcfaf5",
+      "surfaceAlt": "#f4efe4",
+      "surfaceCard": "#ffffff",
+      "border": "#eee8db",
+      "heading": "#262420",
+      "ink": "#33312c",
+      "muted": "#6b675d",
+      "headerBg": "#fcfaf5",
+      "headerFg": "#33312c",
+      "headerBorder": "#eee8db",
+      "footerBg": "#f4efe4",
+      "footerFg": "#6b675d"
+    },
+    "fonts": { "heading": "serif" },
+    "logoUrl": "/sites/turner/logo-horizontal-dark.png",
+    "logoFooterUrl": "/sites/turner/logo-dark.png"
   }'::jsonb,
   '{
     "name": "Turner Building Inc.",
-    "tagline": "Quality construction and remodeling in the South Bay, built on trust.",
+    "tagline": "General contracting and custom construction for the Palos Verdes Peninsula and the South Bay.",
     "phone": "(310) 977-6920",
     "email": "tturnerbuilding@gmail.com",
     "address": { "city": "Palos Verdes Peninsula", "state": "CA" },
-    "serviceArea": ["Rancho Palos Verdes", "Palos Verdes Estates", "Rolling Hills", "Rolling Hills Estates", "Torrance", "Redondo Beach", "Hermosa Beach", "Manhattan Beach", "San Pedro", "Lomita"],
+    "serviceArea": ["Palos Verdes Estates", "Rancho Palos Verdes", "Rolling Hills", "Rolling Hills Estates", "Redondo Beach", "Torrance", "Manhattan Beach", "Hermosa Beach", "San Pedro", "Lomita"],
     "hours": [
       { "days": "Mon–Fri", "open": "7:00 AM – 6:00 PM" },
       { "days": "Sat", "open": "By appointment" }
     ],
     "licenseNo": "0000000",
-    "yearsInBusiness": 15
+    "yearsInBusiness": 10
   }'::jsonb
 );
 
@@ -46,68 +72,119 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
 -- ---------------------------------------------------------------- home
 ('11111111-1111-4111-8111-111111111111', 'home', 'Home', 0,
  '{
-   "title": "Turner Building Inc. | General Contractor in Palos Verdes, CA",
-   "description": "General contractor serving the Palos Verdes Peninsula and the South Bay. Remodels, additions, and new construction. Licensed and insured — free estimates."
+   "title": "Turner Building Inc. — General Contractor, South Bay & Palos Verdes",
+   "description": "General contractor serving the Palos Verdes Peninsula and the South Bay since 2015. Remodels, additions, ADUs, and new construction. Licensed, insured, free estimates."
  }'::jsonb,
  '[
    {
      "type": "hero",
-     "heading": "Built right. Built to last.",
-     "subheading": "General contractor serving the Palos Verdes Peninsula and the South Bay. Remodels, additions, and ground-up construction.",
-     "image": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1800&q=80",
-     "cta": { "label": "Get a Free Estimate", "href": "/contact" }
-   },
-   {
-     "type": "badges",
-     "items": [
-       { "label": "Years in business", "value": "15+" },
-       { "label": "Projects completed", "value": "400+" },
-       { "label": "Licensed & insured", "value": "CA" },
-       { "label": "Free estimates", "value": "Always" }
+     "variant": "showcase",
+     "heading": "Built carefully, from the",
+     "headingAccent": "ground up.",
+     "subheading": "Remodels, additions, ADUs, and the details in between. Turner Building has served the Peninsula and the South Bay since 2015. Licensed, insured, and on site.",
+     "cta": { "label": "Start Your Project", "href": "/contact" },
+     "secondaryCta": { "label": "See Our Work", "href": "/projects" },
+     "slides": [
+       { "image": "/sites/turner/barn-finished.jpg", "alt": "Finished custom equestrian barn in Rolling Hills", "tag": "New Construction", "caption": "Custom Equestrian Barn — Rolling Hills" },
+       { "image": "/sites/turner/kitchen-remodel.jpg", "alt": "Remodeled kitchen opening to an ocean view deck", "tag": "Remodeling", "caption": "Ocean View Kitchen — Palos Verdes Estates" },
+       { "image": "/sites/turner/framing.jpg", "alt": "Structural framing of a new custom build", "tag": "Framing", "caption": "Exposed Beam Framing — Rancho Palos Verdes" },
+       { "image": "/sites/turner/framing-pano.jpg", "alt": "Ground up construction overlooking the coastline", "tag": "General Contracting", "caption": "Hilltop Build — Palos Verdes Peninsula" },
+       { "image": "/sites/turner/fence-driveway.jpg", "alt": "New concrete driveway and custom cedar fence", "tag": "Driveways", "caption": "Driveway & Cedar Fence — Torrance" }
      ]
    },
    {
+     "type": "trustBar",
+     "label": "Serving the South Bay"
+   },
+   {
      "type": "services",
-     "heading": "What we do",
-     "intro": "From a kitchen refresh to a full custom build, one crew handles your project start to finish.",
+     "eyebrow": "What We Do",
+     "heading": "One team for the whole job",
+     "intro": "From the first day of demo to the last coat of finish, you work with one licensed crew that handles it all.",
      "items": [
-       { "title": "Kitchen & Bath Remodels", "description": "Full-service remodels — design, demo, plumbing, electrical, and finish work handled by one team." },
-       { "title": "Room Additions", "description": "Add square footage that matches your home seamlessly, from permits through paint." },
-       { "title": "Whole-Home Renovations", "description": "Open up floor plans, modernize finishes, and bring older South Bay homes up to today''s standards." },
-       { "title": "New Construction", "description": "Ground-up custom homes and ADUs, managed end to end." },
-       { "title": "Decks & Outdoor Living", "description": "Decks, patio covers, and outdoor spaces built to make the most of the coastal views." },
-       { "title": "General Repairs", "description": "Licensed help for the projects on your list — drywall, framing, doors, dry rot, and more." }
+       { "title": "General Contracting", "description": "We manage the whole project, from permits to the final punch list.", "icon": "contracting" },
+       { "title": "Remodeling", "description": "Kitchens, baths, and whole homes, built to be enjoyed for decades.", "icon": "remodeling" },
+       { "title": "Concrete", "description": "Foundations, slabs, and patios poured right the first time.", "icon": "concrete" },
+       { "title": "Framing", "description": "Straight, solid structural framing for new builds and additions.", "icon": "framing" },
+       { "title": "Finish Carpentry", "description": "Trim, built-ins, and the details that make a room feel finished.", "icon": "carpentry" },
+       { "title": "Windows & Doors", "description": "New installations and replacements, sealed tight against the coast.", "icon": "windows" },
+       { "title": "Siding Installation", "description": "Beautiful, durable exteriors in wood, fiber cement, and more.", "icon": "siding" },
+       { "title": "Demolition & Hauling", "description": "Safe, tidy teardown with all the debris hauled away for you.", "icon": "demolition" },
+       { "title": "Decks", "description": "Outdoor spaces made for sunsets, barbecues, and ocean air.", "icon": "deck" },
+       { "title": "ADUs", "description": "Guest houses and rentals, from design through final inspection.", "icon": "adu" },
+       { "title": "Room Additions", "description": "More space that looks and feels like it was always part of your home.", "icon": "addition" },
+       { "title": "Driveways", "description": "Stamped, poured, and paver driveways with real curb appeal.", "icon": "driveway" }
+     ]
+   },
+   {
+     "type": "about",
+     "eyebrow": "About",
+     "heading": "A builder''s company, not a sales office.",
+     "image": "/sites/turner/barn-interior.jpg",
+     "paragraphs": [
+       "Turner Building Inc. is a general contracting company serving the Palos Verdes Peninsula since 2015. The person who quotes your job is the person who builds it. We keep our crews small, our sites clean, and our word.",
+       "Most of our work comes from neighbors of past clients, which is exactly how we like it."
+     ],
+     "stats": [
+       { "value": "10+", "label": "years on the Peninsula" },
+       { "value": "150+", "label": "projects completed" },
+       { "value": "1", "label": "point of contact" }
      ]
    },
    {
      "type": "gallery",
-     "heading": "Recent projects",
-     "intro": "A few of the jobs we''re proud of around the South Bay.",
+     "eyebrow": "Our Work",
+     "heading": "Recent projects around the Peninsula",
      "items": [
-       { "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80", "title": "Custom home build", "location": "Rancho Palos Verdes, CA", "tag": "New build" },
-       { "image": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80", "title": "Kitchen remodel", "location": "Redondo Beach, CA", "tag": "Remodel" },
-       { "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80", "title": "Whole-home renovation", "location": "Palos Verdes Estates, CA", "tag": "Renovation" }
+       { "image": "/sites/turner/barn-finished.jpg", "title": "Custom Equestrian Barn — Rolling Hills", "tag": "New Construction" },
+       { "image": "/sites/turner/kitchen-remodel.jpg", "title": "Ocean View Kitchen — Palos Verdes Estates", "tag": "Remodeling" },
+       { "image": "/sites/turner/framing.jpg", "title": "Exposed Beam Framing — Rancho Palos Verdes", "tag": "Framing" },
+       { "image": "/sites/turner/framing-pano.jpg", "title": "Hilltop Build — Palos Verdes Peninsula", "tag": "General Contracting" },
+       { "image": "/sites/turner/barn-interior.jpg", "title": "Timber Interior — Rolling Hills Estates", "tag": "Finish Carpentry" },
+       { "image": "/sites/turner/fence-driveway.jpg", "title": "Driveway & Cedar Fence — Torrance", "tag": "Driveways" }
+     ]
+   },
+   {
+     "type": "process",
+     "eyebrow": "Our Process",
+     "heading": "Simple, start to finish",
+     "steps": [
+       { "title": "Walk the job", "description": "We meet on site, talk through what you want, and flag what to watch for. It''s free and there''s no pressure." },
+       { "title": "Straight numbers", "description": "You get a clear written proposal with scope, schedule, and cost. No padding, no surprises later." },
+       { "title": "Build it right", "description": "Our crew shows up when we say we will, keeps the site clean, and keeps you in the loop the whole way." },
+       { "title": "Final walkthrough", "description": "We walk every detail together and we don''t call it done until you do. Punch list closed, site clean." }
      ]
    },
    {
      "type": "testimonials",
-     "heading": "What our customers say",
+     "variant": "featured",
+     "image": "/sites/turner/logo-mark.png",
+     "featured": { "quote": "Travis''s crew showed up when they said they would, kept the site clean, and the finish work is flawless. We''ve already had neighbors ask who did it.", "name": "Homeowner", "location": "Rancho Palos Verdes" },
      "items": [
-       { "quote": "They finished our addition on time and on budget, and the crew left the site spotless every day. Couldn''t ask for more.", "name": "Maria G.", "location": "Torrance" },
-       { "quote": "Honest pricing and great communication from the first walkthrough to the final inspection.", "name": "Dave R.", "location": "Rancho Palos Verdes" },
-       { "quote": "Our kitchen looks like it came out of a magazine. We''ve already recommended them to three neighbors.", "name": "Janelle T.", "location": "Redondo Beach" }
+       { "quote": "They remodeled our kitchen and it completely changed how we live in our home. On schedule, on budget, and the finish work speaks for itself.", "name": "Susan", "location": "Palos Verdes Estates" },
+       { "quote": "We interviewed four contractors for our room addition. Turner Building was the only one who explained everything clearly and then delivered on every promise.", "name": "Mark", "location": "Redondo Beach" },
+       { "quote": "From the new driveway to the custom fence, everything was done with real craftsmanship. The crew was respectful and left the site spotless every day.", "name": "Diane", "location": "Torrance" }
      ]
    },
    {
-     "type": "serviceArea",
-     "heading": "Proudly serving the South Bay",
-     "intro": "Based on the Palos Verdes Peninsula, we take on projects throughout the surrounding communities."
+     "type": "faq",
+     "eyebrow": "Common Questions",
+     "heading": "Good questions, honest answers",
+     "items": [
+       { "question": "Are you licensed and insured?", "answer": "Yes. Turner Building Inc. is a fully licensed California general contractor and carries full liability and workers'' compensation insurance on every project." },
+       { "question": "What areas do you serve?", "answer": "We serve the whole South Bay with a focus on the Palos Verdes Peninsula: Palos Verdes Estates, Rancho Palos Verdes, Rolling Hills, and Rolling Hills Estates, plus Redondo Beach, Torrance, Manhattan Beach, and Hermosa Beach." },
+       { "question": "Do you offer free estimates?", "answer": "Absolutely. We''ll visit your property, talk through your goals, and give you a detailed written estimate at no cost and with no obligation." },
+       { "question": "How long does a typical remodel take?", "answer": "It depends on the scope. A bathroom usually runs 3 to 6 weeks, a kitchen 6 to 10 weeks, and whole home remodels or additions take several months. Your proposal includes a realistic timeline before we start." },
+       { "question": "Do you handle permits?", "answer": "Yes. We manage the full permit process with your city, including plans, submittals, and inspections. We work with South Bay building departments every week." },
+       { "question": "Can you build an ADU on my property?", "answer": "In most cases, yes. California ADU law allows accessory dwelling units on most residential lots. We''ll take a look at your property, explain your options, and handle everything from design through final inspection." }
+     ]
    },
    {
-     "type": "cta",
-     "heading": "Ready to start your project?",
-     "body": "Tell us what you have in mind and we''ll get you a free, no-pressure estimate.",
-     "cta": { "label": "Request an Estimate", "href": "/contact" }
+     "type": "contact",
+     "eyebrow": "Free Estimate",
+     "heading": "Let''s talk about your project",
+     "intro": "Tell us what you have in mind and we''ll get back to you within one business day. No pressure, no obligation, just straight answers.",
+     "services": ["General Contracting", "Remodeling", "Concrete", "Framing", "Finish Carpentry", "Windows & Doors", "Siding Installation", "Demolition & Hauling", "Decks", "ADUs", "Room Additions", "Driveways"]
    }
  ]'::jsonb),
 
@@ -115,7 +192,7 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
 ('11111111-1111-4111-8111-111111111111', 'services', 'Services', 1,
  '{
    "title": "Services | Turner Building Inc.",
-   "description": "Kitchen and bath remodels, room additions, renovations, and new construction in the South Bay and Palos Verdes. Licensed and insured."
+   "description": "General contracting, remodeling, concrete, framing, ADUs, additions, and more across the South Bay and Palos Verdes. Licensed and insured."
  }'::jsonb,
  '[
    {
@@ -125,16 +202,32 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
    },
    {
      "type": "services",
-     "heading": "Residential construction, start to finish",
+     "eyebrow": "What We Do",
+     "heading": "One team for the whole job",
      "items": [
-       { "title": "Kitchen & Bath Remodels", "description": "Design-build remodels with one point of contact. We handle demolition, plumbing, electrical, cabinetry, counters, tile, and paint." },
-       { "title": "Room Additions", "description": "Master suites, in-law units, and home offices. We manage engineering, permits, and construction so the addition feels original to the house." },
-       { "title": "Whole-Home Renovations", "description": "Full interior renovations that open up floor plans and modernize older homes while respecting their character." },
-       { "title": "New Construction & ADUs", "description": "Ground-up custom homes and accessory dwelling units, from plans and permits through final walkthrough." },
-       { "title": "Decks & Outdoor Living", "description": "Decks, patio covers, and outdoor kitchens engineered for the coastal climate and built to last." },
-       { "title": "Exterior & Structural", "description": "Siding, windows, structural repairs, and retrofits done to spec." },
-       { "title": "General Repairs", "description": "Drywall, framing, doors, dry rot, and the punch list a handyman can''t legally touch." },
-       { "title": "Insurance Restoration", "description": "Fire and water damage rebuilds, coordinated directly with your insurance adjuster." }
+       { "title": "General Contracting", "description": "We manage the whole project, from permits to the final punch list.", "icon": "contracting" },
+       { "title": "Remodeling", "description": "Kitchens, baths, and whole homes, built to be enjoyed for decades.", "icon": "remodeling" },
+       { "title": "Concrete", "description": "Foundations, slabs, and patios poured right the first time.", "icon": "concrete" },
+       { "title": "Framing", "description": "Straight, solid structural framing for new builds and additions.", "icon": "framing" },
+       { "title": "Finish Carpentry", "description": "Trim, built-ins, and the details that make a room feel finished.", "icon": "carpentry" },
+       { "title": "Windows & Doors", "description": "New installations and replacements, sealed tight against the coast.", "icon": "windows" },
+       { "title": "Siding Installation", "description": "Beautiful, durable exteriors in wood, fiber cement, and more.", "icon": "siding" },
+       { "title": "Demolition & Hauling", "description": "Safe, tidy teardown with all the debris hauled away for you.", "icon": "demolition" },
+       { "title": "Decks", "description": "Outdoor spaces made for sunsets, barbecues, and ocean air.", "icon": "deck" },
+       { "title": "ADUs", "description": "Guest houses and rentals, from design through final inspection.", "icon": "adu" },
+       { "title": "Room Additions", "description": "More space that looks and feels like it was always part of your home.", "icon": "addition" },
+       { "title": "Driveways", "description": "Stamped, poured, and paver driveways with real curb appeal.", "icon": "driveway" }
+     ]
+   },
+   {
+     "type": "process",
+     "eyebrow": "Our Process",
+     "heading": "Simple, start to finish",
+     "steps": [
+       { "title": "Walk the job", "description": "We meet on site, talk through what you want, and flag what to watch for. It''s free and there''s no pressure." },
+       { "title": "Straight numbers", "description": "You get a clear written proposal with scope, schedule, and cost. No padding, no surprises later." },
+       { "title": "Build it right", "description": "Our crew shows up when we say we will, keeps the site clean, and keeps you in the loop the whole way." },
+       { "title": "Final walkthrough", "description": "We walk every detail together and we don''t call it done until you do. Punch list closed, site clean." }
      ]
    },
    {
@@ -155,18 +248,19 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
    {
      "type": "pageHeader",
      "heading": "Project gallery",
-     "intro": "Real jobs, real results. Photos from recent builds and remodels around the South Bay."
+     "intro": "Real jobs, real results — a look at recent builds and remodels around the Peninsula."
    },
    {
      "type": "gallery",
-     "heading": "Recent work",
+     "eyebrow": "Our Work",
+     "heading": "Recent projects around the Peninsula",
      "items": [
-       { "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80", "title": "Custom home build", "location": "Rancho Palos Verdes, CA", "tag": "New build" },
-       { "image": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=80", "title": "Kitchen remodel", "location": "Redondo Beach, CA", "tag": "Remodel" },
-       { "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80", "title": "Open-concept living room", "location": "Torrance, CA", "tag": "Remodel" },
-       { "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=80", "title": "Whole-home renovation", "location": "Palos Verdes Estates, CA", "tag": "Renovation" },
-       { "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&q=80", "title": "Hillside addition", "location": "Rolling Hills Estates, CA", "tag": "Addition" },
-       { "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80", "title": "Foundation & framing", "location": "San Pedro, CA", "tag": "New build" }
+       { "image": "/sites/turner/barn-finished.jpg", "title": "Custom Equestrian Barn — Rolling Hills", "tag": "New Construction" },
+       { "image": "/sites/turner/kitchen-remodel.jpg", "title": "Ocean View Kitchen — Palos Verdes Estates", "tag": "Remodeling" },
+       { "image": "/sites/turner/framing.jpg", "title": "Exposed Beam Framing — Rancho Palos Verdes", "tag": "Framing" },
+       { "image": "/sites/turner/framing-pano.jpg", "title": "Hilltop Build — Palos Verdes Peninsula", "tag": "General Contracting" },
+       { "image": "/sites/turner/barn-interior.jpg", "title": "Timber Interior — Rolling Hills Estates", "tag": "Finish Carpentry" },
+       { "image": "/sites/turner/fence-driveway.jpg", "title": "Driveway & Cedar Fence — Torrance", "tag": "Driveways" }
      ]
    },
    {
@@ -180,7 +274,7 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
 ('11111111-1111-4111-8111-111111111111', 'about', 'About', 3,
  '{
    "title": "About | Turner Building Inc.",
-   "description": "South Bay general contractor serving the Palos Verdes Peninsula. Meet the team behind Turner Building Inc."
+   "description": "A builder''s company serving the Palos Verdes Peninsula since 2015. Meet the team behind Turner Building Inc."
  }'::jsonb,
  '[
    {
@@ -190,30 +284,39 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
    },
    {
      "type": "about",
-     "heading": "Our story",
-     "image": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1200&q=80",
+     "eyebrow": "About",
+     "heading": "A builder''s company, not a sales office.",
+     "image": "/sites/turner/barn-interior.jpg",
      "paragraphs": [
-       "Turner Building Inc. is built on a simple promise: do the job right, charge a fair price, and stand behind the work.",
-       "We''re a local general contractor based on the Palos Verdes Peninsula. Most of our work comes from referrals and repeat customers around the South Bay, which is exactly how we like it — it means the last job earned the next one.",
-       "Every project, large or small, gets a dedicated lead, a clear written estimate, and a crew that treats your home like their own."
+       "Turner Building Inc. is a general contracting company serving the Palos Verdes Peninsula since 2015. The person who quotes your job is the person who builds it. We keep our crews small, our sites clean, and our word.",
+       "Most of our work comes from neighbors of past clients, which is exactly how we like it."
+     ],
+     "stats": [
+       { "value": "10+", "label": "years on the Peninsula" },
+       { "value": "150+", "label": "projects completed" },
+       { "value": "1", "label": "point of contact" }
      ]
    },
    {
-     "type": "badges",
-     "items": [
-       { "label": "Years in business", "value": "15+" },
-       { "label": "Projects completed", "value": "400+" },
-       { "label": "CA License", "value": "#0000000" },
-       { "label": "Bonded & insured", "value": "Yes" }
+     "type": "process",
+     "eyebrow": "Our Process",
+     "heading": "Simple, start to finish",
+     "steps": [
+       { "title": "Walk the job", "description": "We meet on site, talk through what you want, and flag what to watch for. It''s free and there''s no pressure." },
+       { "title": "Straight numbers", "description": "You get a clear written proposal with scope, schedule, and cost. No padding, no surprises later." },
+       { "title": "Build it right", "description": "Our crew shows up when we say we will, keeps the site clean, and keeps you in the loop the whole way." },
+       { "title": "Final walkthrough", "description": "We walk every detail together and we don''t call it done until you do. Punch list closed, site clean." }
      ]
    },
    {
      "type": "testimonials",
-     "heading": "Why neighbors recommend us",
+     "variant": "featured",
+     "image": "/sites/turner/logo-mark.png",
+     "featured": { "quote": "Travis''s crew showed up when they said they would, kept the site clean, and the finish work is flawless. We''ve already had neighbors ask who did it.", "name": "Homeowner", "location": "Rancho Palos Verdes" },
      "items": [
-       { "quote": "They finished our addition on time and on budget, and the crew left the site spotless every day.", "name": "Maria G.", "location": "Torrance" },
-       { "quote": "Honest pricing and great communication from the first walkthrough to the final inspection.", "name": "Dave R.", "location": "Rancho Palos Verdes" },
-       { "quote": "Our kitchen looks like it came out of a magazine.", "name": "Janelle T.", "location": "Redondo Beach" }
+       { "quote": "They remodeled our kitchen and it completely changed how we live in our home. On schedule, on budget, and the finish work speaks for itself.", "name": "Susan", "location": "Palos Verdes Estates" },
+       { "quote": "We interviewed four contractors for our room addition. Turner Building was the only one who explained everything clearly and then delivered on every promise.", "name": "Mark", "location": "Redondo Beach" },
+       { "quote": "From the new driveway to the custom fence, everything was done with real craftsmanship. The crew was respectful and left the site spotless every day.", "name": "Diane", "location": "Torrance" }
      ]
    },
    {
@@ -237,8 +340,10 @@ insert into public.pages (site_id, slug, title, sort_order, seo, sections) value
    },
    {
      "type": "contact",
-     "heading": "Contact us",
-     "intro": "Prefer to talk? Call us — we answer."
+     "eyebrow": "Free Estimate",
+     "heading": "Let''s talk about your project",
+     "intro": "Prefer to talk? Call us — we answer.",
+     "services": ["General Contracting", "Remodeling", "Concrete", "Framing", "Finish Carpentry", "Windows & Doors", "Siding Installation", "Demolition & Hauling", "Decks", "ADUs", "Room Additions", "Driveways"]
    },
    {
      "type": "serviceArea",
